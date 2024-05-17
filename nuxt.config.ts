@@ -7,4 +7,10 @@ export default defineNuxtConfig({
       stylistic: true,
     },
   },
+  runtimeConfig: {
+    public: {
+      tenant: '',
+      clientId: '',
+    },
+  },
 })
