@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
+    clientSecret: '',
     public: {
       tenant: '',
       clientId: '',

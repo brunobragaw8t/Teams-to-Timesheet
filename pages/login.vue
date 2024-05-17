@@ -15,6 +15,21 @@ function authorize() {
 
   window.location.href = url.toString()
 }
+
+onMounted(async () => {
+  const params = new URLSearchParams(window.location.search)
+  const code = params.get('code')
+
+  if (!code) {
+    return
+  }
+
+  console.log('Code:', code)
+
+  const res = await $fetch('/api/access-token/' + code)
+
+console.log('res', res)
+})
 </script>
 
 <template>
