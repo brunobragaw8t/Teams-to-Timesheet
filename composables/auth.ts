@@ -1,8 +1,18 @@
-export const useAuth = () => {
-  const user = useState<{ name: string } | null>('user', () => null)
+import { z } from 'zod'
 
-  function login() {
-    user.value = { name: 'John Doe' }
+const userSchema = z.object({
+  name: z.string(),
+  accessToken: z.string(),
+  refreshToken: z.string(),
+})
+
+type User = z.infer<typeof userSchema>
+
+export const useAuth = () => {
+  const user = useState<User | null>('user', () => null)
+
+  function login(u: User) {
+    user.value = u
   }
 
   function logout() {

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { z } from 'zod'
+import { decodeJWT } from '~/helpers/decode-jwt'
+
 definePageMeta({
   middleware: 'auth',
 })
@@ -24,11 +27,42 @@ onMounted(async () => {
     return
   }
 
-  console.log('Code:', code)
-
   const res = await $fetch('/api/access-token/' + code)
 
-console.log('res', res)
+  let parsed: { accessToken: string, refreshToken: string }
+
+  try {
+    parsed = z.object({
+      accessToken: z.string(),
+      refreshToken: z.string(),
+    }).parse(res)
+  }
+  catch (err) {
+    console.error('Failed to parse response:', err)
+    return
+  }
+
+  const payload = decodeJWT(parsed.accessToken)
+
+  let userData: { name: string }
+
+  try {
+    userData = z.object({
+      name: z.string(),
+    }).parse(payload)
+  }
+  catch (err) {
+    console.error('Failed to parse user data:', err)
+    return
+  }
+
+  useAuth().login({
+    accessToken: parsed.accessToken,
+    refreshToken: parsed.refreshToken,
+    name: userData.name,
+  })
+
+  navigateTo('/')
 })
 </script>
 
