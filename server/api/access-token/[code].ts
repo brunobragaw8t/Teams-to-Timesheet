@@ -1,4 +1,3 @@
-import { useRequestURL } from 'nuxt/app'
 import { z } from 'zod'
 
 const routerParamsSchema = z.object({
@@ -25,7 +24,6 @@ export default defineEventHandler(async (event) => {
   }
 
   const cfg = useRuntimeConfig()
-  const url = useRequestURL()
 
   const res = await $fetch(`https://login.microsoftonline.com/${cfg.public.tenant}/oauth2/v2.0/token`, {
     method: 'POST',
@@ -36,7 +34,7 @@ export default defineEventHandler(async (event) => {
       client_id: cfg.public.clientId,
       scope: 'offline_access user.read mail.read',
       code: code,
-      redirect_uri: `${url.protocol}//${url.host}/login`,
+      redirect_uri: `${cfg.public.appUrl}/login`,
       grant_type: 'authorization_code',
       client_secret: cfg.clientSecret,
     }),
