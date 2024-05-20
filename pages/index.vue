@@ -3,7 +3,9 @@ definePageMeta({
   middleware: 'auth',
 })
 
-const user = useAuth().user
+const auth = useAuth()
+
+const user = auth.user
 </script>
 
 <template>
@@ -13,5 +15,9 @@ const user = useAuth().user
     <h2 v-if="user">
       Welcome, {{ user.name }}
     </h2>
+
+    <button @click="auth.logout()">
+      Click to logout
+    </button>
   </div>
 </template>

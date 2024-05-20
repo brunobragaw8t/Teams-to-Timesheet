@@ -6,6 +6,8 @@ definePageMeta({
   middleware: 'auth',
 })
 
+const auth = useAuth()
+
 function authorize() {
   const { tenant, clientId } = useRuntimeConfig().public
 
@@ -20,6 +22,18 @@ function authorize() {
 }
 
 onMounted(async () => {
+  const userLocalStorage = localStorage.getItem('user')
+
+  if (userLocalStorage) {
+    let user: User;
+
+    try {
+      user = userSchema.parse(JSON.parse(userLocalStorage))
+      auth.login(user)
+      return
+    } catch {}
+  }
+
   const params = new URLSearchParams(window.location.search)
   const code = params.get('code')
 
@@ -56,13 +70,11 @@ onMounted(async () => {
     return
   }
 
-  useAuth().login({
+  auth.login({
     accessToken: parsed.accessToken,
     refreshToken: parsed.refreshToken,
     name: userData.name,
   })
-
-  navigateTo('/')
 })
 </script>
 
