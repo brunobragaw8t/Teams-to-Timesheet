@@ -16,7 +16,7 @@ function authorize() {
   url.searchParams.append('response_type', 'code')
   url.searchParams.append('redirect_uri', 'http://localhost:3000/login')
   url.searchParams.append('response_mode', 'query')
-  url.searchParams.append('scope', 'offline_access user.read mail.read')
+  url.searchParams.append('scope', 'offline_access user.read.all mail.read calendars.read')
 
   window.location.href = url.toString()
 }
@@ -25,13 +25,14 @@ onMounted(async () => {
   const userLocalStorage = localStorage.getItem('user')
 
   if (userLocalStorage) {
-    let user: User;
+    let user: User
 
     try {
       user = userSchema.parse(JSON.parse(userLocalStorage))
       auth.login(user)
       return
-    } catch {}
+    }
+    catch {}
   }
 
   const params = new URLSearchParams(window.location.search)

@@ -36,3 +36,17 @@ export const useSettings = () => {
 
   return { data, save, load }
 }
+
+// const apiBase: Ref<string> = ref('')
+// const token: Ref<string> = ref('')
+// const apiHeaders: Ref<HeadersInit> = ref({})
+//
+// watch(data.value, () => {
+//   apiBase.value = `https://api.atlassian.com/ex/jira/${data.value.cloudId}/rest/api/3`
+//   token.value = btoa(`${data.value.email}:${data.value.apiKey}`)
+//   apiHeaders.value = {
+//     'Authorization': `Basic ${token.value}`,
+//     'Accept': 'application/json',
+//     'Content-Type': 'application/json',
+//   }
+// })

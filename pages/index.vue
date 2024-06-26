@@ -27,17 +27,28 @@ const settingsForm = ref<Settings>(settings.data.value)
 
     <div>
       <label for="cloudId">Cloud ID</label>
-      <input v-model="settingsForm.cloudId" id="cloudId" />
+      <input
+        id="cloudId"
+        v-model="settingsForm.cloudId"
+      >
 
       <label for="email">Email</label>
-      <input v-model="settingsForm.email" id="email" />
+      <input
+        id="email"
+        v-model="settingsForm.email"
+      >
 
       <label for="apiKey">API Key</label>
-      <input v-model="settingsForm.apiKey" id="apiKey" />
+      <input
+        id="apiKey"
+        v-model="settingsForm.apiKey"
+      >
 
       <button @click="settings.save(settingsForm)">
         Save settings
       </button>
     </div>
+
+    <MeetingsList />
   </div>
 </template>

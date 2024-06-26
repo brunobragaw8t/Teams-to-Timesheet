@@ -8,8 +8,11 @@ onMounted(async () => {
   if (!auth.user.value) {
     return
   }
+
+  const { tenant, clientId } = useRuntimeConfig().public
+
   const { data, error } = await useFetch(
-    'https://graph.microsoft.com/v1.0/me/calendarview?startdatetime=2024-05-23T21:02:17.067Z&enddatetime=2024-05-30T21:02:17.067Z',
+    `https://graph.microsoft.com/v1.0/me/calendarview?startdatetime=2024-05-23T21:02:17.067Z&enddatetime=2024-05-30T21:02:17.067Z`,
     {
       headers: {
         Authorization: `Bearer ${auth.user.value.accessToken}`,
